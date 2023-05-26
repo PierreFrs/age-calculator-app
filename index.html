@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- displays site properly based on user's device -->
+
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="32x32"
+      href="./assets/images/favicon-32x32.png"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,700;1,400;1,800&display=swap"
+      rel="stylesheet"
+    />
+
+    <title>Frontend Mentor | Age calculator app</title>
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          fontFamily: {
+            sans: ["Poppins", "sans-serif"],
+          },
+          extend: {
+            colors: {
+              primaryPurple: "hsl(259, 100%, 65%)",
+              primaryLightRed: "hsl(0, 100%, 67%)",
+              neutralWhite: "hsl(0, 0%, 100%)",
+              neutralOffWhite: "hsl(0, 0%, 94%)",
+              neutralLightGrey: "hsl(0, 0%, 86%)",
+              neutralSmokeyGrey: "hsl(0, 1%, 44%)",
+              neutralOffBlack: "hsl(0, 0%, 8%)",
+            },
+            borderRadius: {
+              "4xl": "100px",
+            },
+          },
+        },
+      };
+    </script>
+  </head>
+  <body class="flex items-center justify-center h-screen bg-neutralOffWhite">
+    <div
+      class="card flex flex-col justify-center items-center bg-neutralWhite rounded-3xl rounded-br-4xl p-8"
+    >
+      <!-- form -->
+      <form class="flex justify-center gap-4 mb-20">
+        <!-- input element -->
+        <div class="input-container flex flex-col">
+          <label
+            for="day"
+            class="uppercase text-neutralSmokeyGrey tracking-widest"
+            >Day</label
+          >
+          <input
+            type="text"
+            id="day"
+            name="day"
+            class="day-input w-20 h-10 border border-neutralLightGrey rounded-md cursor-pointer hover:border-primaryPurple caret-primaryPurple font-extrabold text-center"
+            placeholder="DD"
+          />
+          <p class="alert text-primaryLightRed text-xs font-thin italic">
+            Must be a valid day
+          </p>
+        </div>
+        <!-- end of input element -->
+
+        <!-- input element -->
+        <div class="input-container flex flex-col">
+          <label
+            for="month"
+            class="uppercase text-neutralSmokeyGrey tracking-widest"
+            >month</label
+          >
+          <input
+            type="text"
+            id="month"
+            name="month"
+            class="month-input w-20 h-10 border border-neutralLightGrey rounded-md cursor-pointer hover:border-primaryPurple caret-primaryPurple font-extrabold text-center"
+            placeholder="MM"
+          />
+          <p class="alert text-primaryLightRed text-xs font-thin italic">
+            Must be a valid month
+          </p>
+        </div>
+        <!-- end of input element -->
+        <!-- input element -->
+        <div class="input-container flex flex-col">
+          <label
+            for="year"
+            class="uppercase text-neutralSmokeyGrey tracking-widest"
+            >year</label
+          >
+          <input
+            type="text"
+            id="year"
+            name="year"
+            class="year-input w-20 h-10 border border-neutralLightGrey rounded-md cursor-pointer hover:border-primaryPurple caret-primaryPurple font-extrabold text-center"
+            placeholder="YYYY"
+          />
+          <p class="alert text-primaryLightRed text-xs font-thin italic">
+            Must be a valid year
+          </p>
+        </div>
+        <div class="separation">
+          <div class="line"></div>
+          <img src="" alt="" />
+        </div>
+        <!-- end of input element -->
+      </form>
+      <!-- centre -->
+      <div class="separation w-full relative mb-20">
+        <div class="line w-11/12 h-px bg-neutralLightGrey"></div>
+        <img
+          class="btn w-20 h-20 absolute bg-primaryPurple rounded-full p-6 cursor-pointer hover:bg-neutralOffBlack top-1/2 left-1/2 translate-y-[-50%] translate-x-[-50%]"
+          src="./assets/images/icon-arrow.svg"
+          alt=""
+        />
+      </div>
+      <!-- values -->
+      <div class="values flex flex-col flex-start">
+        <p class="years-paragraph text-3xl">
+          <span class="numbers text-primaryPurple">--</span> years
+        </p>
+        <p class="years-paragraph text-3xl">
+          <span class="numbers text-primaryPurple">--</span> months
+        </p>
+        <p class="years-paragraph text-3xl">
+          <span class="numbers text-primaryPurple">--</span> days
+        </p>
+      </div>
+    </div>
+
+    <div class="attribution absolute bottom-0">
+      Challenge by
+      <a href="https://www.frontendmentor.io?ref=challenge" target="_blank"
+        >Frontend Mentor</a
+      >. Coded by <a href="#">Pierre Fraisse</a>.
+    </div>
+    <script src="app.js"></script>
+  </body>
+</html>
