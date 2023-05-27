@@ -18,7 +18,6 @@ const getValuesObject = () => {
     }),
     {}
   );
-  console.log(valuesObject);
   return valuesObject;
 };
 
@@ -89,18 +88,29 @@ const validateInput = (valuesObject) => {
     const text = "Must be in the past";
     displayError("input-2", text);
   }
-  console.log(hasError);
   return hasError;
 };
 
 const calculateAge = (valuesObject) => {
   const { day, month, year } = valuesObject;
-  // const birthDate = new Date(year, month - 1, day);
+  const birthDate = new Date(year, month - 1, day);
   const todaysDate = new Date();
-  const yearOfAge = todaysDate.getFullYear() - year;
-  const monthOfAge = todaysDate.getMonth() - month;
-  const dayOfAge = todaysDate.getDate() - day;
-  console.log(yearOfAge, monthOfAge, dayOfAge);
+
+  const ageInMilliseconds = todaysDate - birthDate;
+  const millisecondsPerYear = 1000 * 60 * 60 * 24 * 365.25;
+  let ageYears = Math.floor(ageInMilliseconds / millisecondsPerYear);
+
+  birthDate.setFullYear(birthDate.getFullYear() + ageYears);
+  let ageMonths = todaysDate.getMonth() - birthDate.getMonth();
+  const ageDays = todaysDate.getDate() - birthDate.getDate();
+
+  if (ageMonths < 0) {
+    ageYears -= 1;
+    ageMonths += 12;
+  }
+  const age = [ageYears, ageMonths, ageDays];
+  console.log(age);
+  return age;
 };
 
 // put values in span when button is clicked
@@ -122,9 +132,7 @@ const handleSubmit = (e) => {
       input.value = "";
     });
     // Proceed with form submission
-    form.submit();
   }
 };
 
 Btn.addEventListener("click", handleSubmit);
-form.addEventListener("submit", handleSubmit);
