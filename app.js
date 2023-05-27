@@ -1,14 +1,16 @@
+// import validateInput from "./utils/validateInput.js";
+
 // select button
 const Btn = document.querySelector(".btn");
 // select inputs
 const inputs = document.querySelectorAll("input");
 // select spans
 const valueUpdates = document.querySelectorAll("span");
-// select paragraphs
-// const errorMessages = document.querySelectorAll(".alert");
+// select form
+const form = document.querySelector(".form");
 
 // get values of inputs
-const getValues = () => {
+const getValuesObject = () => {
   const valuesObject = Array.from(inputs).reduce(
     (acc, input) => ({
       ...acc,
@@ -16,27 +18,113 @@ const getValues = () => {
     }),
     {}
   );
-  if (Object.keys(valuesObject).length !== inputs.length) {
-    inputs.forEach((input) => {
-      if (input.value === "") {
-        console.log("Field cannot be empty");
-        input.nextElementSibling.textContent = "Field cannot be empty";
-      }
-    });
-  }
+  console.log(valuesObject);
   return valuesObject;
 };
 
-Btn.addEventListener("click", getValues);
+const displayError = (inputId, text) => {
+  // Add unique IDs to each input field
+  inputs.forEach((input, index) => {
+    input.id = `input-${index}`;
+  });
+  const input = document.getElementById(inputId);
+  const errorParagraph = input.nextElementSibling;
+  errorParagraph.textContent = text;
+};
+
+const validateInput = (valuesObject) => {
+  const { day, month, year } = valuesObject;
+
+  let hasError = false;
+
+  // check month length
+  // check leap year for 29 days
+
+  // check valid day
+  if (!day) {
+    hasError = true;
+    const text = "This field is required";
+    displayError("input-0", text);
+  } else if (day < 1 || day > 31) {
+    hasError = true;
+    const text = "Must be a valid day";
+    displayError("input-0", text);
+  } else if ([4, 6, 9, 11].includes(Number(month)) && day > 30) {
+    hasError = true;
+    const text = "Must be a valid day";
+    displayError("input-0", text);
+  } else if (month === 2) {
+    if (
+      ((year % 4 === 0 && year % 100 !== 0) || year % 400 === 0) &&
+      day > 29
+    ) {
+      hasError = true;
+      const text = "Must be a valid day";
+      displayError("input-0", text);
+    } else if (day > 28) {
+      hasError = true;
+      const text = "Must be a valid day";
+      displayError("input-0", text);
+    }
+  }
+
+  // check valid month
+  if (!month) {
+    hasError = true;
+    const text = "This field is required";
+    displayError("input-1", text);
+  } else if (month < 1 || month > 12) {
+    hasError = true;
+    const text = "Must be a valid month";
+    displayError("input-1", text);
+  }
+
+  // check valid year
+  if (!year) {
+    hasError = true;
+    const text = "This field is required";
+    displayError("input-2", text);
+  } else if (year > new Date().getFullYear()) {
+    hasError = true;
+    const text = "Must be in the past";
+    displayError("input-2", text);
+  }
+  console.log(hasError);
+  return hasError;
+};
+
+const calculateAge = (valuesObject) => {
+  const { day, month, year } = valuesObject;
+  // const birthDate = new Date(year, month - 1, day);
+  const todaysDate = new Date();
+  const yearOfAge = todaysDate.getFullYear() - year;
+  const monthOfAge = todaysDate.getMonth() - month;
+  const dayOfAge = todaysDate.getDate() - day;
+  console.log(yearOfAge, monthOfAge, dayOfAge);
+};
 
 // put values in span when button is clicked
 // reset value in input field
 // animate values from 0 to age
 
-// Make sure day is a number between 1 and 28-29 in february, 30 31 days
-// Make sure month is between 1 and 12
-// make sure year is valid
-// make sure date is in the future
+const handleSubmit = (e) => {
+  e.preventDefault();
 
-// display error message for wrong value format
-// display error for wrong date
+  const valuesObject = getValuesObject();
+  const hasErrors = validateInput(valuesObject);
+
+  if (!hasErrors) {
+    // Calculate age
+    calculateAge(valuesObject);
+
+    // Reset input values
+    inputs.forEach((input) => {
+      input.value = "";
+    });
+    // Proceed with form submission
+    form.submit();
+  }
+};
+
+Btn.addEventListener("click", handleSubmit);
+form.addEventListener("submit", handleSubmit);
