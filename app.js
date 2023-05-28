@@ -180,8 +180,7 @@ btn.addEventListener("click", handleClick);
 
 // event listener on enter key
 document.addEventListener("keydown", (e) => {
-  let keyCode = e.keyCode ? e.keyCode : e.which;
-  if (keyCode === 13) {
+  if (e.key === "Enter") {
     btn.click();
   }
 });
