@@ -6,8 +6,6 @@ const Btn = document.querySelector(".btn");
 const inputs = document.querySelectorAll("input");
 // select spans
 const valuePlaces = document.querySelectorAll("span");
-// select form
-const form = document.querySelector(".form");
 
 // get values of inputs
 const getValuesObject = () => {
