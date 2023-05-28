@@ -1,7 +1,7 @@
 // import validateInput from "./utils/validateInput.js";
 
 // select button
-const Btn = document.querySelector(".btn");
+const btn = document.querySelector(".btn");
 // select inputs
 const inputs = document.querySelectorAll("input");
 // select spans
@@ -176,4 +176,12 @@ const handleClick = () => {
 };
 
 // event listener on button
-Btn.addEventListener("click", handleClick);
+btn.addEventListener("click", handleClick);
+
+// event listener on enter key
+document.addEventListener("keydown", (e) => {
+  let keyCode = e.keyCode ? e.keyCode : e.which;
+  if (keyCode === 13) {
+    btn.click();
+  }
+});
