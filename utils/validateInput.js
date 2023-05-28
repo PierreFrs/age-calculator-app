@@ -1,54 +1,74 @@
-const validateInput = (date) => {
-  const { day, month, year } = date;
+import displayError from "./displayError.js";
 
-  let errors = { day: "", month: "", year: "" };
-  let isError = false;
+const validateInput = (valuesObject, inputs) => {
+  // get the values from the valuesObject object
+  const { day, month, year } = valuesObject;
 
-  // check month length
-  // check leap year for 29 days
+  // Add unique IDs to each input field
+  inputs.forEach((input, index) => {
+    if (index === 0) {
+      input.id = "day";
+    } else if (index === 1) {
+      input.id = "month";
+    } else if (index === 2) {
+      input.id = "year";
+    }
+  });
+
+  // sets the error as false by default
+  let hasError = false;
 
   // check valid day
   if (!day) {
-    isError = true;
-    errors.day = "This field is required";
+    hasError = true;
+    const text = "This field is required";
+    displayError("day", text);
   } else if (day < 1 || day > 31) {
-    isError = true;
-    errors.day = "Must be a valid day";
+    hasError = true;
+    const text = "Must be a valid day";
+    displayError("day", text);
   } else if ([4, 6, 9, 11].includes(Number(month)) && day > 30) {
-    isError = true;
-    errors.day = "Must be a valid day";
+    hasError = true;
+    const text = "Must be a valid day";
+    displayError("day", text);
   } else if (month === 2) {
     if (
       ((year % 4 === 0 && year % 100 !== 0) || year % 400 === 0) &&
       day > 29
     ) {
-      isError = true;
-      errors.day = "Must be a valid day";
+      hasError = true;
+      const text = "Must be a valid day";
+      displayError("day", text);
     } else if (day > 28) {
-      isError = true;
-      errors.day = "Must be a valid day";
+      hasError = true;
+      const text = "Must be a valid day";
+      displayError("day", text);
     }
   }
 
   // check valid month
   if (!month) {
-    isError = true;
-    errors.month = "This field is required";
+    hasError = true;
+    const text = "This field is required";
+    displayError("month", text);
   } else if (month < 1 || month > 12) {
-    isError = true;
-    errors.month = "Must be a valid month";
+    hasError = true;
+    const text = "Must be a valid month";
+    displayError("month", text);
   }
 
   // check valid year
   if (!year) {
-    isError = true;
-    errors.year = "This field is required";
+    hasError = true;
+    const text = "This field is required";
+    displayError("year", text);
   } else if (year > new Date().getFullYear()) {
-    isError = true;
-    errors.year = "must be in the past";
+    hasError = true;
+    const text = "Must be in the past";
+    displayError("year", text);
   }
-
-  return { isError, errors };
+  // console.log(hasError);
+  return hasError;
 };
 
 export default validateInput;
