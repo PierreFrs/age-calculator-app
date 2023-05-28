@@ -32,6 +32,7 @@ const displayError = (inputId, text) => {
 };
 
 const validateInput = (valuesObject) => {
+  // get the values from the valuesObject object
   const { day, month, year } = valuesObject;
 
   // Add unique IDs to each input field
@@ -45,6 +46,7 @@ const validateInput = (valuesObject) => {
     }
   });
 
+  // sets the error as false by default
   let hasError = false;
 
   // check valid day
@@ -101,15 +103,17 @@ const validateInput = (valuesObject) => {
 };
 
 const calculateAge = (valuesObject) => {
+  // get the values from the valuesObject object
   const { day, month, year } = valuesObject;
+  // sets the birthdate as a date object and gets today's date
   const birthDate = new Date(Number(year), Number(month) - 1, Number(day));
   const todaysDate = new Date();
 
+  // Calculates the number of years
   const ageInMilliseconds = todaysDate - birthDate;
   const millisecondsPerYear = 1000 * 60 * 60 * 24 * 365.25;
   let ageYears = Math.floor(ageInMilliseconds / millisecondsPerYear);
 
-  birthDate.setFullYear(birthDate.getFullYear() + ageYears);
   let ageMonths = todaysDate.getMonth() - birthDate.getMonth();
   let ageDays = todaysDate.getDate() - birthDate.getDate();
 
