@@ -5,9 +5,20 @@ const Btn = document.querySelector(".btn");
 // select inputs
 const inputs = document.querySelectorAll("input");
 // select spans
-const valueUpdates = document.querySelectorAll("span");
+const valuePlaces = document.querySelectorAll("span");
 // select form
 const form = document.querySelector(".form");
+
+// Add unique IDs to each input field
+inputs.forEach((input, index) => {
+  if (index === 0) {
+    input.id = "day";
+  } else if (index === 1) {
+    input.id = "month";
+  } else if (index === 2) {
+    input.id = "year";
+  }
+});
 
 // get values of inputs
 const getValuesObject = () => {
@@ -18,15 +29,13 @@ const getValuesObject = () => {
     }),
     {}
   );
+  // console.log(valuesObject);
   return valuesObject;
 };
 
 const displayError = (inputId, text) => {
-  // Add unique IDs to each input field
-  inputs.forEach((input, index) => {
-    input.id = `input-${index}`;
-  });
   const input = document.getElementById(inputId);
+  input.classList.add("border-primaryLightRed");
   const errorParagraph = input.nextElementSibling;
   errorParagraph.textContent = text;
 };
@@ -36,22 +45,19 @@ const validateInput = (valuesObject) => {
 
   let hasError = false;
 
-  // check month length
-  // check leap year for 29 days
-
   // check valid day
   if (!day) {
     hasError = true;
     const text = "This field is required";
-    displayError("input-0", text);
+    displayError(day, text);
   } else if (day < 1 || day > 31) {
     hasError = true;
     const text = "Must be a valid day";
-    displayError("input-0", text);
+    displayError(day, text);
   } else if ([4, 6, 9, 11].includes(Number(month)) && day > 30) {
     hasError = true;
     const text = "Must be a valid day";
-    displayError("input-0", text);
+    displayError(day, text);
   } else if (month === 2) {
     if (
       ((year % 4 === 0 && year % 100 !== 0) || year % 400 === 0) &&
@@ -59,11 +65,11 @@ const validateInput = (valuesObject) => {
     ) {
       hasError = true;
       const text = "Must be a valid day";
-      displayError("input-0", text);
+      displayError(day, text);
     } else if (day > 28) {
       hasError = true;
       const text = "Must be a valid day";
-      displayError("input-0", text);
+      displayError(day, text);
     }
   }
 
@@ -71,29 +77,30 @@ const validateInput = (valuesObject) => {
   if (!month) {
     hasError = true;
     const text = "This field is required";
-    displayError("input-1", text);
+    displayError(month, text);
   } else if (month < 1 || month > 12) {
     hasError = true;
     const text = "Must be a valid month";
-    displayError("input-1", text);
+    displayError(month, text);
   }
 
   // check valid year
   if (!year) {
     hasError = true;
     const text = "This field is required";
-    displayError("input-2", text);
+    displayError(year, text);
   } else if (year > new Date().getFullYear()) {
     hasError = true;
     const text = "Must be in the past";
-    displayError("input-2", text);
+    displayError(year, text);
   }
+  // console.log(hasError);
   return hasError;
 };
 
 const calculateAge = (valuesObject) => {
   const { day, month, year } = valuesObject;
-  const birthDate = new Date(year, month - 1, day);
+  const birthDate = new Date(Number(year), Number(month) - 1, Number(day));
   const todaysDate = new Date();
 
   const ageInMilliseconds = todaysDate - birthDate;
@@ -109,30 +116,40 @@ const calculateAge = (valuesObject) => {
     ageMonths += 12;
   }
   const age = [ageYears, ageMonths, ageDays];
-  console.log(age);
+  // console.log(age);
   return age;
 };
 
-// put values in span when button is clicked
-// reset value in input field
-// animate values from 0 to age
+const displayValues = (age) => {
+  valuePlaces.forEach((place, index) => {
+    const placeId = `place-${index}`;
+    const valuePlace = document.getElementById(placeId);
+    place.textContent = age[index];
+  });
+};
 
-const handleSubmit = (e) => {
-  e.preventDefault();
+const handleClick = () => {
+  // Reset input values
+  inputs.forEach((input) => {
+    input.classList.remove("border-primaryLightRed");
+  });
 
+  // Get input values
   const valuesObject = getValuesObject();
-  const hasErrors = validateInput(valuesObject);
 
-  if (!hasErrors) {
+  // validate input values
+  let hasError = validateInput(valuesObject);
+
+  if (!hasError) {
     // Calculate age
-    calculateAge(valuesObject);
-
+    const age = calculateAge(valuesObject);
+    // Display values
+    displayValues(age);
     // Reset input values
     inputs.forEach((input) => {
       input.value = "";
     });
-    // Proceed with form submission
   }
 };
 
-Btn.addEventListener("click", handleSubmit);
+Btn.addEventListener("click", handleClick);
