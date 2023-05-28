@@ -136,16 +136,32 @@ const calculateAge = (valuesObject) => {
   }
   const age = [ageYears, ageMonths, ageDays];
   // console.log(age);
+
+  // add an id to the valuePlaces corresponding to each age value
+  valuePlaces.forEach((place, index) => {
+    place.id = age[index];
+  });
   return age;
 };
 
-// function to display the value on the UI
-const displayValues = (age) => {
-  valuePlaces.forEach((place, index) => {
-    const placeId = `place-${index}`;
-    const valuePlace = document.getElementById(placeId);
-    place.textContent = age[index];
-  });
+// Function to display the age values in the UI with an animation
+const updateCount = (el) => {
+  const value = parseInt(el.id);
+  const increment = Math.ceil(value / 1000);
+  let initialValue = 0;
+
+  const increaseCount = setInterval(() => {
+    initialValue += increment;
+
+    if (initialValue > value) {
+      el.textContent = value;
+      clearInterval(increaseCount);
+      return;
+    }
+
+    el.textContent = initialValue;
+  }, 1);
+  // console.log(increaseCount);
 };
 
 // function to handle the click of the button
@@ -166,8 +182,11 @@ const handleClick = () => {
   if (!hasError) {
     // Calculate age
     const age = calculateAge(valuesObject);
-    // Display values
-    displayValues(age);
+
+    // updates the age values in the UI with animation
+    valuePlaces.forEach((item) => {
+      updateCount(item);
+    });
     // Reset input values
     inputs.forEach((input) => {
       input.value = "";
