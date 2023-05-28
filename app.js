@@ -7,7 +7,7 @@ const inputs = document.querySelectorAll("input");
 // select spans
 const valuePlaces = document.querySelectorAll("span");
 
-// get values of inputs
+// get values of inputs as an object
 const getValuesObject = () => {
   const valuesObject = Array.from(inputs).reduce(
     (acc, input) => ({
@@ -20,6 +20,7 @@ const getValuesObject = () => {
   return valuesObject;
 };
 
+// function to display the error messages on UI
 const displayError = (inputId, text) => {
   const input = document.getElementById(inputId);
   input.classList.add("border-primaryLightRed");
@@ -138,6 +139,7 @@ const calculateAge = (valuesObject) => {
   return age;
 };
 
+// function to display the value on the UI
 const displayValues = (age) => {
   valuePlaces.forEach((place, index) => {
     const placeId = `place-${index}`;
@@ -146,6 +148,7 @@ const displayValues = (age) => {
   });
 };
 
+// function to handle the click of the button
 const handleClick = () => {
   // Reset input values
   inputs.forEach((input) => {
@@ -172,4 +175,5 @@ const handleClick = () => {
   }
 };
 
+// event listener on button
 Btn.addEventListener("click", handleClick);
